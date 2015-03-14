@@ -10,9 +10,9 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
   memory_mb = 768
 
   nodes = {
-    'node-1' => "192.168.5.100",
-    'node-2' => "192.168.5.101",
-    'node-3' => "192.168.5.102"
+    'node-1' => "192.168.50.100",
+    'node-2' => "192.168.50.101",
+    'node-3' => "192.168.50.102"
   }
 
   nodes.each_with_index do |(short_name, ip), idx|
