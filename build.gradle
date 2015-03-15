@@ -4,6 +4,8 @@ plugins {
 
 apply plugin: 'scala'
 apply plugin: 'idea'
+apply plugin: 'eclipse'
+apply plugin: "com.commercehub.gradle.plugin.avro-base"
 
 repositories {
     mavenLocal()
@@ -11,6 +13,8 @@ repositories {
 }
 
 def scalaVersion = "2.10"
+
+sourceSets.main.scala.srcDirs 'build/avro'
 
 dependencies {
     compile 'org.twitter4j:twitter4j-stream:4.0.2'
@@ -39,8 +43,14 @@ task consume(type: JavaExec, dependsOn: classes) {
     classpath configurations.runtime
 }
 
+task generateAvro(type: com.commercehub.gradle.plugin.avro.GenerateAvroJavaTask) {
+    source("src/main/avro")
+    outputDir = file("build/avro")
 
+}
 
+tasks.eclipse.dependsOn(generateAvro)
+compileScala.source(generateAvro.outputs)
 // enable fast scala compiler
 compileScala {
     scalaCompileOptions.useCompileDaemon = true
@@ -50,4 +60,3 @@ compileScala {
 tasks.withType(ScalaCompile) {
     scalaCompileOptions.useAnt = false
 }
-
