@@ -9,6 +9,11 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
   config.hostmanager.manage_host = true
   config.hostmanager.enabled = true
 
+  if Vagrant.has_plugin?("vagrant-cachier")
+    config.cache.scope       = :machine # or :box
+    config.cache.auto_detect = false
+  end
+
   memory_mb = 768
 
   nodes = {
