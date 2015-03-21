@@ -1,38 +1,9 @@
 ---
-    # ---------------------------
-    # Kafka
-    # ---------------------------
 
-    - name: Kafka | Ensure group "kafka" exists
-      group: name=kafka state=present
+  - name: Update apt cache
+    apt: update_cache=yes cache_valid_time=86400
 
-    - name: Kafka | Ensure user "kafka" exists
-      user: name=kafka group=kafka
+  # Java
 
-    - name: Kafka | Ensure {{kafka_build}} tarball is present
-      get_url:
-        url: "http://apache.cs.uu.nl/kafka/{{kafka_version}}/{{kafka_build}}.tgz"
-        dest: "/tmp/{{kafka_build}}.tgz"
-        owner: kafka
-        group: kafka
-
-    - name: Kafka | Ensure tar is extracted
-      unarchive: src=/tmp/{{kafka_build}}.tgz dest=/home/kafka copy=no creates=/home/kafka/{{kafka_build}}
-
-    - name: Kafka | Ensure "current" symlink is present
-      file: src=/home/kafka/{{kafka_build}} dest=/home/kafka/current owner=kafka group=kafka state=link
-
-    - name: Kafka | Ensure data directory exists
-      file: path={{kafka_data_dir}} state=directory mode=0755 owner=kafka group=kafka
-
-    - name: Kafka | Ensure config is present
-      template: src=files/kafka/server.properties dest=/home/kafka/current/config/server.properties mode=0644 owner=kafka group=kafka
-
-    - name: Kafka | Ensure init.d script is present
-      copy: src=files/kafka/initd dest=/etc/init.d/kafka mode=0755 force=yes
-
-    - name: Kafka | Ensure log dir is present
-      file: path=/home/kafka/current/logs state=directory mode=0755 owner=kafka group=kafka
-
-    - name: Kafka | Ensure the service is started
-      service: name=kafka state=restarted enabled=yes
+  - name: Ensure Java is installed.
+    apt: pkg=default-jre state=installed

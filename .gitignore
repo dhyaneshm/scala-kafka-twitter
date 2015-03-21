@@ -35,6 +35,11 @@
 ## Plugin-specific files:
 
 # IntelliJ
+.classpath
+.project
+/.settings/
+
+# IntelliJ
 out/
 
 # mpeltonen/sbt-idea plugin
@@ -78,3 +83,7 @@ project/plugins/project/
 
 ### Scala Typesafe Config ###
 application.conf
+/bin/
+
+###Vagrant files
+/.vagrant/

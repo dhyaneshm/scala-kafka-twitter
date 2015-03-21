@@ -26,10 +26,10 @@
       file: path={{kafka_data_dir}} state=directory mode=0755 owner=kafka group=kafka
 
     - name: Kafka | Ensure config is present
-      template: src=files/kafka/server.properties dest=/home/kafka/current/config/server.properties mode=0644 owner=kafka group=kafka
+      template: src=server.properties dest=/home/kafka/current/config/server.properties mode=0644 owner=kafka group=kafka
 
     - name: Kafka | Ensure init.d script is present
-      copy: src=files/kafka/initd dest=/etc/init.d/kafka mode=0755 force=yes
+      copy: src=initd dest=/etc/init.d/kafka mode=0755 force=yes
 
     - name: Kafka | Ensure log dir is present
       file: path=/home/kafka/current/logs state=directory mode=0755 owner=kafka group=kafka

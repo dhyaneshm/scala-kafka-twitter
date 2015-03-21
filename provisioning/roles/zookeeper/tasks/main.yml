@@ -11,11 +11,11 @@
 
     - name: ZooKeeper | Ensure myid is set to {{node_seq}}
       template:
-        src: files/zk/myid
+        src: myid
         dest: /etc/zookeeper/conf/myid
 
     - name: ZooKeeper | Ensure config is present
-      template: src=files/zk/zoo.cfg dest=/etc/zookeeper/conf/zoo.cfg
+      template: src=zoo.cfg dest=/etc/zookeeper/conf/zoo.cfg
 
     - name: ZooKeeper | Ensure the service is restarted
       service: name=zookeeper state=restarted enabled=yes
