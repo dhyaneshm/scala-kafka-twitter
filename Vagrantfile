@@ -6,6 +6,7 @@ VAGRANTFILE_API_VERSION = "2"
 Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
 
   config.vm.box = "precise64" # Ubuntu 12.04
+  #config.vm.provision :shell, inline: 'wget --no-check-certificate https://github.com/aglover/ubuntu-equip/raw/master/equip_java7_64.sh && bash equip_java7_64.sh'
   config.hostmanager.manage_host = true
   config.hostmanager.enabled = true
 
@@ -19,10 +20,17 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
   nodes = {
     'node-1' => "192.168.50.100",
     'node-2' => "192.168.50.101",
-    'node-3' => "192.168.50.102"
+    'node-3' => "192.168.50.102",
+    'node-4' => "192.168.50.103"
   }
 
   nodes.each_with_index do |(short_name, ip), idx|
+
+     if(idx == 0)
+       services =["nimbus","ui","drpc"]
+     else
+       services =["supervisor","logviewer"]
+     end
 
     config.vm.define short_name do |host|
 
@@ -36,7 +44,9 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
         ansible.playbook = "provisioning/ansible.yml"
         ansible.extra_vars = {
           nodes: nodes.values,
-          node_seq: idx
+          node_seq: idx,
+          host_name: short_name,
+          services: services
         }
       end
     end
