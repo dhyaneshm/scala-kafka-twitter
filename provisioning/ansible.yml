@@ -8,4 +8,4 @@
       - base
       - zookeeper
       - storm
-#      - kafka
+      - kafka

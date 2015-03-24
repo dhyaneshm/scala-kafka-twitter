@@ -1,3 +1,4 @@
 ---
 - name: start supervisor daemon
   shell: supervisord
+  sudo: true
